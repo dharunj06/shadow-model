@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shadowml-backend
+  namespace: shadowml
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shadowml-backend
+  template:
+    metadata:
+      labels:
+        app: shadowml-backend
+    spec:
+      containers:
+        - name: backend
+          image: ghcr.io/YOUR_ORG/shadowml-backend:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: shadowml-secrets
+                  key: database-url
+            - name: MODEL_V1_URL
+              value: "http://model-v1-svc:8001"
+            - name: MODEL_V2_URL
+              value: "http://model-v2-svc:8002"
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+  namespace: shadowml
+spec:
+  selector:
+    app: shadowml-backend
+  ports:
+    - port: 8000
+      targetPort: 8000

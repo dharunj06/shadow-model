@@ -1,0 +1,38 @@
+groups:
+  - name: shadowml_alerts
+    rules:
+      - alert: HighErrorRate
+        expr: rate(shadow_model_errors_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High model error rate detected"
+          description: "Model {{ $labels.model_version }} error rate > 5% for 2 minutes"
+
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, rate(shadow_request_latency_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High end-to-end latency"
+          description: "P95 latency exceeds 2s"
+
+      - alert: PromotionCandidate
+        expr: shadow_promotion_candidate == 1
+        for: 0m
+        labels:
+          severity: info
+        annotations:
+          summary: "Shadow model is promotion candidate"
+          description: "Model v2 has outperformed v1 on {{ $value }} samples"
+
+      - alert: LowAgreementRate
+        expr: shadow_model_agreement_rate < 0.7
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low model agreement rate"
+          description: "V1 and V2 agreement dropped below 70%"

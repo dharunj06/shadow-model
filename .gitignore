@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+
+# Models
+*.pkl
+*.h5
+*.pt
+*.onnx
+mlruns/
+mlartifacts/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+
+# Secrets
+*.pem
+*.key
+*.crt
+kubeconfig
+
+# OS
+.DS_Store
+Thumbs.db
+
+# DVC
+.dvc/cache/
+*.dvc
+
+# Logs
+*.log
+logs/

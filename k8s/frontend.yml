@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shadowml-frontend
+  namespace: shadowml
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: shadowml-frontend
+  template:
+    metadata:
+      labels:
+        app: shadowml-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/YOUR_ORG/shadowml-frontend:latest
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-svc
+  namespace: shadowml
+spec:
+  selector:
+    app: shadowml-frontend
+  ports:
+    - port: 80
+      targetPort: 80
