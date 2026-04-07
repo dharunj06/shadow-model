@@ -226,7 +226,7 @@ export default function ModelEvaluation({ onEvaluationComplete }) {
       {!result && !loading && (
         <div className="placeholder">
           <Zap size={32} opacity={0.5} />
-          <p>Click "Evaluate Models" to compare production and shadow models</p>
+          <p>Click &quot;Evaluate Models&quot; to compare production and shadow models</p>
         </div>
       )}
     </div>
