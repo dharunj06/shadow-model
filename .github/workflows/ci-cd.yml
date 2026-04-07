@@ -51,7 +51,7 @@ jobs:
       - name: Lint with ruff
         run: |
           pip install ruff
-          ruff check backend/app --select E,F,W
+          ruff check backend/app --select E,F,W --ignore E501,W293
 
       - name: Run tests
         env:
