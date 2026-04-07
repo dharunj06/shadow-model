@@ -97,11 +97,11 @@ async def evaluate_models(db: AsyncSession, window_hours: int = 24) -> dict:
     # Accuracy
     v1_acc = None
     if v1_labels:
-        v1_acc = sum(1 for p, l in v1_labels if p == l) / len(v1_labels)
+        v1_acc = sum(1 for pred, label in v1_labels if pred == label) / len(v1_labels)
 
     v2_acc = None
     if v2_labels:
-        v2_acc = sum(1 for p, l in v2_labels if p == l) / len(v2_labels)
+        v2_acc = sum(1 for pred, label in v2_labels if pred == label) / len(v2_labels)
 
     # Latencies
     v1_avg_latency = float(np.mean(v1_latencies)) if v1_latencies else 0.0

@@ -269,7 +269,7 @@ async def load_model_by_id(
     try:
         # Find the model
         query = select(ModelUpload).where(
-            (ModelUpload.id == UUID(model_id)) & 
+            (ModelUpload.id == UUID(model_id)) &
             (ModelUpload.model_version == "v2")
         )
         result = await db.execute(query)
